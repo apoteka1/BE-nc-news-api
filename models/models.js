@@ -1,6 +1,5 @@
 const db = require("../db/connection");
 
-
 exports.fetchTopics = async () => {
   const result = await db.query(`SELECT * FROM topics;`);
 
@@ -33,6 +32,18 @@ exports.incVotes = async (votes, article_id) => {
   return result.rows[0];
 };
 
-exports.fetchArticles = async (sortBy, order, topic) => {
-  
-}
+exports.fetchArticles = async (sort_by, order, topic) => {
+  let queryStr = `SELECT * FROM articles `;
+
+  const result = await db.query(queryStr);
+
+  return result.rows;
+};
+
+exports.fetchCommentsByArtId = async (id) => {};
+
+exports.postComment = async (username, article_id, body) => {};
+
+exports.deleteComment = async (id) => {};
+
+exports.fetchEndpoints = async () => {};

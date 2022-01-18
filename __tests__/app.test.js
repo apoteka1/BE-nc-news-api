@@ -8,7 +8,7 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe("GET /api/topics", () => {
-  it("should return array of topic objects", () => {
+  it("should respond with an array of topic objects", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -27,8 +27,18 @@ describe("GET /api/topics", () => {
   });
 });
 
-describe.only('GET /api/articles', () => {
- 
+describe('GET /api/articles', () => {
+  it('should respond with and array of article objects, with added comment_count keys, ', () => {
+    return request(app)
+    .get("/api/articles")
+    .expect(200)
+    .then((res) => {
+      const { articles } = res.body;
+        expect(articles).toHaveLength(12);
+        expect(articles).toBeInstanceOf(Array);
+
+    })
+  });
 });
 
 describe("GET /api/articles/:article_id", () => {
@@ -42,7 +52,7 @@ describe("GET /api/articles/:article_id", () => {
     created_at: "2020-07-09T20:11:00.000Z",
     comment_count: 11,
   };
-  it("should return an object with all article keys plus a count of comments", () => {
+  it("should respond with an object with all article keys plus a count of comments", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
@@ -66,7 +76,7 @@ describe("PATCH /api/articles/:article_id", () => {
     author: "butter_bridge",
     created_at: "2020-07-09T20:11:00.000Z",
   };
-  it("should return an object with the updated article", () => {
+  it("should respond with an object with the updated article", () => {
     return request(app)
       .patch("/api/articles/1")
       .send(testRequest)
