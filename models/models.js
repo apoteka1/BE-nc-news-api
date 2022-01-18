@@ -33,4 +33,6 @@ exports.incVotes = async (votes, article_id) => {
   return result.rows[0];
 };
 
-exports.fetchArticles = async (sortBy, order, topic) => {}
+exports.fetchArticles = async (sortBy, order, topic) => {
+  
+}
