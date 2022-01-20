@@ -1,10 +1,10 @@
 const db = require("../db/connection");
-const { getLookup } = require("./model_utils");
 exports.fetchTopics = async () => {
   const result = await db.query(`SELECT * FROM topics;`);
 
   return result.rows;
 };
+
 
 exports.fetchArticleById = async (id) => {
   const result = await db.query(
@@ -61,7 +61,7 @@ exports.fetchArticles = async (
   let queryStr = `SELECT articles.*, COUNT(comments.article_id)::INT AS comment_count
   FROM articles
   LEFT JOIN comments ON articles.article_id = comments.article_id `;
-  
+
   if (topic) {
     queryStr += `WHERE topic = $1 `;
     queryValues.push(topic);
@@ -72,10 +72,15 @@ exports.fetchArticles = async (
 
   const result = await db.query(queryStr, queryValues);
 
-  return result.rows;
+  if (result.rows.length === 0) {
+    return Promise.reject({ status: 404, msg: "not found" });
+  } else {
+    return result.rows;
+  }
 };
 
 exports.fetchCommentsByArtId = async (id) => {
+  
   const result = await db.query(
     `SELECT * FROM comments WHERE article_id = $1`,
     [id]
@@ -98,10 +103,9 @@ exports.postComment = async (username, article_id, body) => {
 exports.deleteComment = async (id) => {
   const result = await db.query(
     `DELETE FROM comments
-    WHERE comment_id = $1`, [id]
+    WHERE comment_id = $1`,
+    [id]
   );
-  
-  return result.rowCount
+
+  return result.rowCount;
 };
-
-

@@ -9,6 +9,7 @@ const {
   fetchEndpoints,
 } = require("../models/models");
 const endpoints = require("../endpoints.json");
+const { validateArtId } = require("../error_handling/errors");
 
 exports.getTopics = (req, res, next) => {
   fetchTopics()
@@ -21,7 +22,8 @@ exports.getTopics = (req, res, next) => {
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
 
-  fetchArticleById(article_id)
+  validateArtId(article_id)
+    .then(() => fetchArticleById(article_id))
     .then((article) => {
       res.status(200).send({ article });
     })
@@ -32,7 +34,8 @@ exports.patchArticle = (req, res, next) => {
   const { article_id } = req.params;
   const votes = req.body.inc_votes;
 
-  incVotes(votes, article_id)
+  validateArtId(article_id)
+    .then(() => incVotes(votes, article_id))
     .then((article) => {
       res.status(200).send({ article });
     })
@@ -51,8 +54,8 @@ exports.getArticles = (req, res, next) => {
 
 exports.getCommentsByArtId = (req, res, next) => {
   const { article_id } = req.params;
-
-  fetchCommentsByArtId(article_id)
+  validateArtId(article_id)
+    .then(() => fetchCommentsByArtId(article_id))
     .then((comments) => {
       res.status(200).send({ comments });
     })
@@ -63,8 +66,9 @@ exports.postCommentByArtId = (req, res, next) => {
   const { article_id } = req.params;
   const username = req.body.username;
   const body = req.body.body;
-
-  postComment(username, article_id, body)
+  
+  validateArtId(article_id)
+    .then(() => postComment(username, article_id, body))
     .then((comment) => {
       res.status(201).send({ comment });
     })
@@ -82,5 +86,5 @@ exports.deleteCommentById = (req, res, next) => {
 };
 
 exports.getApi = (req, res, next) => {
-  res.status(200).send(endpoints);
+  res.status(200).send(endpoints).catch(next);
 };

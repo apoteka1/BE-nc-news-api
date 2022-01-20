@@ -13,7 +13,9 @@ const {
 const {
   handlePsqlErrors,
   handle404s,
-handleCustomErrors} = require("./error_handling/errors");
+handleCustomErrors,
+handleServerErrors
+} = require("./error_handling/errors");
 
 app.use(express.json());
 
@@ -27,6 +29,10 @@ app.post("/api/articles/:article_id/comments", postCommentByArtId);
 app.delete("/api/comments/:comment_id", deleteCommentById);
 app.get("/api", getApi);
 
-app.use(handlePsqlErrors)
+app.all("*", handle404s)
+
+app.use(handlePsqlErrors);
+app.use(handleCustomErrors);
+app.use(handleServerErrors);
 
 module.exports = app;
