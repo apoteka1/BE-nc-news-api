@@ -9,7 +9,10 @@ const {
   fetchEndpoints,
 } = require("../models/models");
 const endpoints = require("../endpoints.json");
-const { validateArtId } = require("../error_handling/errors");
+const {
+  validateArtId,
+  validateCommentId,
+} = require("../error_handling/errors");
 
 exports.getTopics = (req, res, next) => {
   fetchTopics()
@@ -66,7 +69,7 @@ exports.postCommentByArtId = (req, res, next) => {
   const { article_id } = req.params;
   const username = req.body.username;
   const body = req.body.body;
-  
+
   validateArtId(article_id)
     .then(() => postComment(username, article_id, body))
     .then((comment) => {
@@ -77,8 +80,8 @@ exports.postCommentByArtId = (req, res, next) => {
 
 exports.deleteCommentById = (req, res, next) => {
   const { comment_id } = req.params;
-
-  deleteComment(comment_id)
+  validateCommentId(comment_id)
+    .then(() => deleteComment(comment_id))
     .then(() => {
       res.sendStatus(204);
     })

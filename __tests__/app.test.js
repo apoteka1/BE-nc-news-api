@@ -143,7 +143,6 @@ describe("GET /api/articles", () => {
         expect(res.body.msg).toBe("Invalid order query");
       });
   });
-
 });
 
 describe("GET /api/articles/:article_id", () => {
@@ -361,17 +360,59 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 
-  //missing fields
-  //invalid data type
-  //invalid user
+  it("should respond with status 400 when fields missing from request body", () => {
+    return request(app)
+      .post("/api/articles/invalid_id/comments")
+      .send(incompletePost)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+
+  it("should respond with status 400 when request body values are invalid", () => {
+    return request(app)
+      .post("/api/articles/invalid_id/comments")
+      .send(invalidPost)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
+
+  it("should respond with status 400 when username is not on database", () => {
+    return request(app)
+      .post("/api/articles/invalid_id/comments")
+      .send(invalidUserPost)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
 });
 
 describe("DELETE /api/comments/:comment_id", () => {
   it("should respond with status 204", () => {
     return request(app).delete("/api/comments/1").expect(204);
   });
-  //no comment with id - create psql func
-  //invalid data type
+
+  it("should respond with status 404 if no comment exists with given id", () => {
+    return request(app)
+      .delete("/api/comments/1000")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("not found");
+      });
+  });
+
+  it("should respond with status 400 id is invalid", () => {
+    return request(app)
+      .delete("/api/comments/invalid")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("bad request");
+      });
+  });
 });
 
 describe("GET /api", () => {
