@@ -6,7 +6,6 @@ const {
   fetchCommentsByArtId,
   postComment,
   deleteComment,
-  fetchEndpoints,
 } = require("../models/models");
 const endpoints = require("../endpoints.json");
 const {
