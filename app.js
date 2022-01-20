@@ -10,7 +10,10 @@ const {
   deleteCommentById,
   getApi,
 } = require("./controllers/controllers");
-const {} = require("./error_handling/errors");
+const {
+  handlePsqlErrors,
+  handle404s,
+handleCustomErrors} = require("./error_handling/errors");
 
 app.use(express.json());
 
@@ -23,5 +26,7 @@ app.get("/api/articles/:article_id/comments", getCommentsByArtId);
 app.post("/api/articles/:article_id/comments", postCommentByArtId);
 app.delete("/api/comments/:comment_id", deleteCommentById);
 app.get("/api", getApi);
+
+app.use(handlePsqlErrors)
 
 module.exports = app;
