@@ -53,3 +53,26 @@ exports.validateCommentId = async (id) => {
   }
 };
 
+exports.validateSortBy = async (sortBy) => {
+  
+  if (
+    ![
+      "author",
+      "title",
+      "article_id",
+      "body",
+      "topic",
+      "created_at",
+      "votes",
+    ].includes(sortBy)
+  ) {
+    return Promise.reject({ status: 400, msg: "Invalid sort query" });
+  }
+};
+
+exports.validateOrder = async (order) => {
+  
+  if (!["asc", "desc"].includes(order)) {
+    return Promise.reject({ status: 400, msg: "Invalid order query" });
+  }
+};

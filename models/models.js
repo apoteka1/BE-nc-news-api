@@ -34,29 +34,8 @@ exports.incVotes = async (votes, article_id) => {
   return result.rows[0];
 };
 
-exports.fetchArticles = async (
-  topic,
-  sort_by = "created_at",
-  order = "desc"
-) => {
-  if (
-    ![
-      "author",
-      "title",
-      "article_id",
-      "body",
-      "topic",
-      "created_at",
-      "votes",
-    ].includes(sort_by)
-  ) {
-    return Promise.reject({ status: 400, msg: "Invalid sort query" });
-  }
-
-  if (!["asc", "desc"].includes(order)) {
-    return Promise.reject({ status: 400, msg: "Invalid order query" });
-  }
-
+exports.fetchArticles = async (topic, sort_by, order) => {
+  
   let queryValues = [];
   let queryStr = `SELECT articles.*, COUNT(comments.article_id)::INT AS comment_count
   FROM articles

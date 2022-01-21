@@ -11,6 +11,8 @@ const endpoints = require("../endpoints.json");
 const {
   validateArtId,
   validateCommentId,
+  validateSortBy,
+  validateOrder,
 } = require("../error_handling/errors");
 
 exports.getTopics = (req, res, next) => {
@@ -45,9 +47,11 @@ exports.patchArticle = (req, res, next) => {
 };
 
 exports.getArticles = (req, res, next) => {
-  const { topic, sort_by, order } = req.query;
-
-  fetchArticles(topic, sort_by, order)
+  const { topic, sort_by  = "created_at", order  = "desc"} = req.query;
+  
+  validateOrder(order)
+    .then(() => validateSortBy(sort_by))
+    .then(() => fetchArticles(topic, sort_by, order))
     .then((articles) => {
       res.status(200).send({ articles });
     })
@@ -56,7 +60,7 @@ exports.getArticles = (req, res, next) => {
 
 exports.getCommentsByArtId = (req, res, next) => {
   const { article_id } = req.params;
-  
+
   validateArtId(article_id)
     .then(() => fetchCommentsByArtId(article_id))
     .then((comments) => {
@@ -90,5 +94,5 @@ exports.deleteCommentById = (req, res, next) => {
 };
 
 exports.getApi = (req, res, next) => {
-  res.status(200).send({endpoints}).catch(next);
+  res.status(200).send({ endpoints });
 };
