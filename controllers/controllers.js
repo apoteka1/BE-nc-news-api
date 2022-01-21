@@ -56,6 +56,7 @@ exports.getArticles = (req, res, next) => {
 
 exports.getCommentsByArtId = (req, res, next) => {
   const { article_id } = req.params;
+  
   validateArtId(article_id)
     .then(() => fetchCommentsByArtId(article_id))
     .then((comments) => {
@@ -79,6 +80,7 @@ exports.postCommentByArtId = (req, res, next) => {
 
 exports.deleteCommentById = (req, res, next) => {
   const { comment_id } = req.params;
+
   validateCommentId(comment_id)
     .then(() => deleteComment(comment_id))
     .then(() => {
