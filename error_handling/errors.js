@@ -54,7 +54,6 @@ exports.validateCommentId = async (id) => {
 };
 
 exports.validateSortBy = async (sortBy) => {
-  
   if (
     ![
       "author",
@@ -71,8 +70,17 @@ exports.validateSortBy = async (sortBy) => {
 };
 
 exports.validateOrder = async (order) => {
-  
   if (!["asc", "desc"].includes(order)) {
     return Promise.reject({ status: 400, msg: "Invalid order query" });
+  }
+};
+
+exports.validateUser = async (user) => {
+  const result = await db.query(
+    `SELECT * FROM users WHERE username = $1`,
+    [user]
+  );
+  if (result.rows.length === 0) {
+    return Promise.reject({ status: 404, msg: "user not found" });
   }
 };

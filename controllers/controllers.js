@@ -13,6 +13,7 @@ const {
   validateCommentId,
   validateSortBy,
   validateOrder,
+  validateUser,
 } = require("../error_handling/errors");
 
 exports.getTopics = (req, res, next) => {
@@ -47,8 +48,8 @@ exports.patchArticle = (req, res, next) => {
 };
 
 exports.getArticles = (req, res, next) => {
-  const { topic, sort_by  = "created_at", order  = "desc"} = req.query;
-  
+  const { topic, sort_by = "created_at", order = "desc" } = req.query;
+
   validateOrder(order)
     .then(() => validateSortBy(sort_by))
     .then(() => fetchArticles(topic, sort_by, order))
@@ -75,6 +76,7 @@ exports.postCommentByArtId = (req, res, next) => {
   const body = req.body.body;
 
   validateArtId(article_id)
+    .then(() => validateUser(username))
     .then(() => postComment(username, article_id, body))
     .then((comment) => {
       res.status(201).send({ comment });

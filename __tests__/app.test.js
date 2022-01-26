@@ -314,13 +314,14 @@ describe("POST /api/articles/:article_id/comments", () => {
   const incompletePost = {
     username: "butter_bridge",
   };
-  const invalidPost = {
-    username: "butter_bridge",
-    body: 5,
-  };
   const invalidUserPost = {
     username: "not_a_user",
     body: "blah",
+  };
+  const obesePost = {
+    username: "butter_bridge",
+    body: "blah",
+    unnecessaryProperty: "blah",
   };
 
   it("should respond with an object containing the comment details, with the given article_id", () => {
@@ -362,7 +363,7 @@ describe("POST /api/articles/:article_id/comments", () => {
 
   it("should respond with status 400 when fields missing from request body", () => {
     return request(app)
-      .post("/api/articles/invalid_id/comments")
+      .post("/api/articles/1/comments")
       .send(incompletePost)
       .expect(400)
       .then((res) => {
@@ -370,23 +371,32 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 
-  it("should respond with status 400 when request body values are invalid", () => {
+  it("should respond with status 404 when username is not on database", () => {
     return request(app)
-      .post("/api/articles/invalid_id/comments")
-      .send(invalidPost)
-      .expect(400)
+      .post("/api/articles/1/comments")
+      .send(invalidUserPost)
+      .expect(404)
       .then((res) => {
-        expect(res.body.msg).toBe("bad request");
+        expect(res.body.msg).toBe("user not found");
       });
   });
 
-  it("should respond with status 400 when username is not on database", () => {
+  it("should ignore unnecessary query properties and respond with status 201 ", () => {
     return request(app)
-      .post("/api/articles/invalid_id/comments")
-      .send(invalidUserPost)
-      .expect(400)
+      .post("/api/articles/1/comments")
+      .send(obesePost)
+      .expect(201)
       .then((res) => {
-        expect(res.body.msg).toBe("bad request");
+        const result = res.body.comment;
+        expect(result.hasOwnProperty("unnecessaryProperty")).toBe(false);
+        expect(result).toBeInstanceOf(Object);
+        expect(result).toMatchObject({
+          comment_id: expect.any(Number),
+          votes: 0,
+          created_at: expect.any(String),
+          author: "butter_bridge",
+          body: "blah",
+        });
       });
   });
 });
