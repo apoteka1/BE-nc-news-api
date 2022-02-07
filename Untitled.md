@@ -89,7 +89,7 @@ All in all, an excellent piece of work and you should be proud of what you've ac
   - [✅] Status 400, missing required field(s), e.g. no username or body properties
   - [✅] Status 404, username does not exist
     - check your last three tests for this endpoint, you have used the path '/api/articles/invalid_id/comments' for all of these but that's not what you're testing. Consequently this test passes (with your assertion of 400) but it shouldn't. Refactor your tests here to use a valid path and for this test in particular, expect a 404.
-  - [✅❌] Status 201, ignores unnecessary properties
+  - [✅] Status 201, ignores unnecessary properties
     - you haven't tested for this although your db does have this behavior. Take a win and add a test in!
 
 - `DELETE /api/comments/:comment_id`

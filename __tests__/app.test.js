@@ -263,6 +263,7 @@ describe("get /api/articles/:article_id/comments", () => {
       .expect(200)
       .then((res) => {
         const comments = res.body.comments;
+
         expect(comments).toBeInstanceOf(Array);
         expect(comments).toHaveLength(11);
 
@@ -388,6 +389,7 @@ describe("POST /api/articles/:article_id/comments", () => {
       .expect(201)
       .then((res) => {
         const result = res.body.comment;
+        
         expect(result.hasOwnProperty("unnecessaryProperty")).toBe(false);
         expect(result).toBeInstanceOf(Object);
         expect(result).toMatchObject({
