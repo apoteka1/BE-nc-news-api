@@ -77,6 +77,17 @@ describe("GET /api/articles", () => {
 				});
 			});
 	});
+	it("should respond with an empty array, given valid topic with no corresponding articles, with status 200", () => {
+		return request(app)
+			.get("/api/articles?topic=paper")
+			.expect(200)
+			.then((res) => {
+				const { articles } = res.body;
+
+				expect(articles).toBeInstanceOf(Array);
+				expect(articles).toHaveLength(0);
+			});
+	});
 
 	it("should respond with an array of article objects, with the given sort requests", () => {
 		return request(app)
@@ -116,15 +127,6 @@ describe("GET /api/articles", () => {
 				articles.forEach((article) => {
 					expect(article.topic).toBe("mitch");
 				});
-			});
-	});
-
-	it("responds with status 404 if no articles with given topic", () => {
-		return request(app)
-			.get("/api/articles?topic=no_topics")
-			.expect(404)
-			.then((res) => {
-				expect(res.body.msg).toBe("not found");
 			});
 	});
 

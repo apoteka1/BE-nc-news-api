@@ -51,11 +51,9 @@ exports.fetchArticles = async (topic, sort_by, order) => {
 
   const result = await db.query(queryStr, queryValues);
 
-  if (result.rows.length === 0) {
-    return Promise.reject({ status: 404, msg: "not found" });
-  } else {
+  
     return result.rows;
-  }
+  
 };
 
 exports.fetchCommentsByArtId = async (id) => {

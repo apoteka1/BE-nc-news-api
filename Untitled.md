@@ -9,10 +9,10 @@ All in all, an excellent piece of work and you should be proud of what you've ac
 ## Readme - Remove the one that was provided and write your own
 
 - [ ] Link to hosted version
-- [x] Write a summary of what the project is
+- [✅] Write a summary of what the project is
 - [ ] Provide clear instructions of how to clone, install dependencies, seed local database, and run tests
 - [ ] Include information about how to create `.env.test` and `.env.development` files
-- [x] Specify minimum versions of `Node.js` and `Postgres` needed to run the project
+- [✅] Specify minimum versions of `Node.js` and `Postgres` needed to run the project
   - to be completed
 
 ## General
@@ -71,7 +71,7 @@ All in all, an excellent piece of work and you should be proud of what you've ac
   - [✅] Status 400. invalid `order` query, e.g. `?order=bananas`
   - [✅] Status 404. non-existent `topic` query, e.g. `?topic=bananas`
     - it does but make sure this behavior works when you refactor to take account of the next comment!
-  - [❌] Status 200. valid `topic` query, but has no articles responds with an empty array of articles, e.g. `?topic=paper`
+  - [✅] Status 200. valid `topic` query, but has no articles responds with an empty array of articles, e.g. `?topic=paper`
     - you will need to check if the topic exists before sending a 404. If it does but there are no articles on that topic, I'd expect a 200 and an empty array.
 
 - `GET /api/articles/:article_id/comments`
