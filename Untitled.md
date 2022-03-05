@@ -9,10 +9,10 @@ All in all, an excellent piece of work and you should be proud of what you've ac
 ## Readme - Remove the one that was provided and write your own
 
 - [ ] Link to hosted version
-- [ ] Write a summary of what the project is
+- [x] Write a summary of what the project is
 - [ ] Provide clear instructions of how to clone, install dependencies, seed local database, and run tests
 - [ ] Include information about how to create `.env.test` and `.env.development` files
-- [ ] Specify minimum versions of `Node.js` and `Postgres` needed to run the project
+- [x] Specify minimum versions of `Node.js` and `Postgres` needed to run the project
   - to be completed
 
 ## General
@@ -35,7 +35,7 @@ All in all, an excellent piece of work and you should be proud of what you've ac
 
 - [✅] Seeding before each test
 - [✅] Descriptive `it`/`test` block descriptions
-- [❌] If asserting inside a `forEach`, also has an assertion to check length is at least > 0
+- [✅ If asserting inside a `forEach`, also has an assertion to check length is at least > 0
   - be careful here as these tests will pass if an empty array is sent back from the server. You've done this in some tests but not all.
 - [✅] Evidence of building up complex query endpoints using TDD
 - [✅] Ensure all tests are passing
