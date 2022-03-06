@@ -14,6 +14,7 @@ const {
 	validateSortBy,
 	validateOrder,
 	validateUser,
+	validateTopic,
 } = require("../error_handling/errors");
 
 exports.getTopics = (req, res, next) => {
@@ -37,7 +38,8 @@ exports.getArticleById = (req, res, next) => {
 
 exports.patchArticle = (req, res, next) => {
 	const { article_id } = req.params;
-	const votes = req.body.inc_votes;
+
+	const votes = req.body.inc_votes ?? 0;
 
 	validateArtId(article_id)
 		.then(() => incVotes(votes, article_id))
@@ -52,6 +54,7 @@ exports.getArticles = (req, res, next) => {
 
 	validateOrder(order)
 		.then(() => validateSortBy(sort_by))
+		.then(() => validateTopic(topic))
 		.then(() => fetchArticles(topic, sort_by, order))
 		.then((articles) => {
 			res.status(200).send({ articles });

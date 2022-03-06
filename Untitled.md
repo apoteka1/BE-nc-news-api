@@ -57,7 +57,7 @@ All in all, an excellent piece of work and you should be proud of what you've ac
   - [✅] Status 400, invalid ID, e.g. string of "not-an-id"
   - [✅] Status 400, invalid inc_votes type, e.g. property is not a number
   - [✅] Status 404, non existent ID, e.g. 0 or 9999
-  - [❌] Status 200, missing `inc_votes` key. No effect to article.
+  - [✅] Status 200, missing `inc_votes` key. No effect to article.
     - You've treated this as a bad request but if the request body doesn't have an inc_votes key this request can be dealt with as if inc_votes = 0 and return the unchanged article.
 
 - `GET /api/articles`

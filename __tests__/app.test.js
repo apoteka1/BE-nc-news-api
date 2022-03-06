@@ -130,6 +130,15 @@ describe("GET /api/articles", () => {
 			});
 	});
 
+	it("responds with status 404 if topic invalid", () => {
+		return request(app)
+			.get("/api/articles?topic=no_topics")
+			.expect(404)
+			.then((res) => {
+				expect(res.body.msg).toBe("topic not found");
+			});
+	});
+
 	it("responds with status 400 if invalid sort_by query", () => {
 		return request(app)
 			.get("/api/articles?sort_by=invalid_sort_by")
@@ -249,13 +258,13 @@ describe("PATCH /api/articles/:article_id", () => {
 			});
 	});
 
-	it("should respond with status 400 when request key is invalid ", () => {
+	it("has no effect to article, with status 200 if missing `inc_votes` key.", () => {
 		return request(app)
 			.patch("/api/articles/1")
 			.send(wrongRequest)
-			.expect(400)
+			.expect(200)
 			.then((res) => {
-				expect(res.body.msg).toBe("bad request");
+				expect(res.body.article.votes).toBe(100);
 			});
 	});
 });
