@@ -10,8 +10,8 @@ All in all, an excellent piece of work and you should be proud of what you've ac
 
 - [ ] Link to hosted version
 - [✅] Write a summary of what the project is
-- [ ] Provide clear instructions of how to clone, install dependencies, seed local database, and run tests
-- [ ] Include information about how to create `.env.test` and `.env.development` files
+- [✅] Provide clear instructions of how to clone, install dependencies, seed local database, and run tests
+- [✅] Include information about how to create `.env.test` and `.env.development` files
 - [✅] Specify minimum versions of `Node.js` and `Postgres` needed to run the project
   - to be completed
 
