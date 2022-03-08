@@ -1,27 +1,92 @@
 {
-  "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of the api"
-  },
-  "GET /api/topics": {
-    "description": "serves an array of all topics",
-    "queries": [],
-    "exampleResponse": {
-      "topics": [{ "slug": "football", "description": "Footie!" }]
-    }
-  },
-  "GET /api/articles": {
-    "description": "serves an array of all articles",
-    "queries": ["author", "topic", "sort_by", "order"],
-    "exampleResponse": {
-      "articles": [
-        {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
-        }
-      ]
-    }
-  }
+	"GET /api": {
+		"description": "serves up a json representation of all the available endpoints of the api"
+	},
+	"GET /api/topics": {
+		"description": "serves an array of all topics",
+		"queries": [],
+		"exampleResponse": {
+			"topics": [{ "slug": "football", "description": "Footie!" }]
+		}
+	},
+	"GET /api/articles": {
+		"description": "serves an array of all articles",
+		"queries": ["author", "topic", "sort_by", "order"],
+		"exampleResponse": {
+			"articles": [
+				{
+					"title": "Seafood substitutions are increasing",
+					"topic": "cooking",
+					"author": "weegembump",
+					"body": "Text from the article..",
+					"created_at": 1527695953341
+				}
+			]
+		}
+	},
+	"GET /api/articles/:article_id": {
+		"description": "serves the article with the given unique ID",
+		"exampleResponse": {
+			"article": {
+				"article_id": 1,
+				"title": "Running a Node App",
+				"body": "This is part two of a series on how to get up and running with Systemd and Node.js.",
+				"votes": 0,
+				"topic": "coding",
+				"author": "jessjelly",
+				"created_at": "2020-11-07T06:03:00.000Z",
+				"comment_count": 8
+			}
+		}
+	},
+	"PATCH /api/articles/:article_id": {
+		"description": "changes the vote count on the given article by the given amount. can be positive or negative",
+		"exampleRequestBody": { "inc_votes": 1 },
+		"exampleResponse": {
+			"article": {
+				"article_id": 1,
+				"title": "Running a Node App",
+				"body": "This is part two of a series on how to get up and running with Systemd and Node.js.",
+				"votes": 2,
+				"topic": "coding",
+				"author": "jessjelly",
+				"created_at": "2020-11-07T06:03:00.000Z"
+			}
+		}
+	},
+	"GET /api/articles/:article_id/comments": {
+		"description": "serves an array of all the comments for a given article",
+		"exampleResponse": {
+			"comments": [
+				{
+					"comment_id": 31,
+					"author": "weegembump",
+					"article_id": 1,
+					"votes": 11,
+					"created_at": "2020-09-26T16:16:00.000Z",
+					"body": "Sit sequi odio suscipit."
+				}
+			]
+		}
+	},
+	"POST /api/articles/:article_id/comments": {
+		"description": "post comment for a given article",
+		"example request body": {
+			"username": "tickle122",
+			"body": "Sit sequi odio suscipit."
+		},
+		"exampleResponse": {
+			"comment": {
+				"comment_id": 301,
+				"author": "tickle122",
+				"article_id": 1,
+				"votes": 0,
+				"created_at": "2022-03-08T10:21:32.905Z",
+				"body": "blah"
+			}
+		}
+	},
+	"DELETE /api/comments/:comment_id": {
+		"description": "deletes given comment. No response body."
+	}
 }

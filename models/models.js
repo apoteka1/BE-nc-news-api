@@ -58,7 +58,8 @@ exports.fetchArticles = async (topic, sort_by, order) => {
 
 exports.fetchCommentsByArtId = async (id) => {
   const result = await db.query(
-    `SELECT * FROM comments WHERE article_id = $1`,
+    `SELECT * FROM comments WHERE article_id = $1
+     ORDER BY created_at DESC`,
     [id]
   );
 
